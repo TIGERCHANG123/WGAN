@@ -83,7 +83,8 @@ class draw:
     y = generator(x)
     for i in range(pic_num):
       plt.subplot(1, pic_num, i + 1)
-      plt.imshow(y[i].numpy().reshape(28, 28) / 255 - 0.5, 'gray')
+      y = (y + 1) / 2 * 255
+      plt.imshow(y[i].numpy().reshape(28, 28).numpy())
       plt.axis('off')
       plt.tight_layout()
     plt.show()
@@ -93,10 +94,7 @@ class draw:
     x = tf.convert_to_tensor(np.random.rand(pic_num, noise_dim))
     y = generator(x)
     y=tf.squeeze(y)
+    y = (y + 1) / 2 * 255
     for i in range(pic_num):
-      # plt.subplot(1, pic_num, i + 1)
-      # plt.imshow(y[i].numpy().reshape(28, 28) / 255 - 0.5, 'gray')
-      # plt.axis('off')
-      # plt.tight_layout()
       plt.imsave(self.generated_pic_path+'/{}_{}.png'.format(epoch, i), y[i].numpy())
     return

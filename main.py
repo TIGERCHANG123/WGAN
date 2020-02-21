@@ -5,8 +5,8 @@ from WGAN import get_gan
 from show_pic import draw
 from Train import train_one_epoch
 from mnist import mnist_dataset
-# from tensorflow.compat.v1 import ConfigProto
-# from tensorflow.compat.v1 import InteractiveSession
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
 
 ubuntu_root='/home/tigerc'
 windows_root='D:/Automatic/SRTP/GAN'
@@ -50,8 +50,8 @@ def main(continue_train, train_time):
     return
 
 if __name__ == '__main__':
-    # config = ConfigProto()
-    # config.gpu_options.allow_growth = True
-    # session = InteractiveSession(config=config)
+    config = ConfigProto()
+    config.gpu_options.allow_growth = True
+    session = InteractiveSession(config=config)
 
     main(continue_train=True, train_time=1)
