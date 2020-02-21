@@ -8,14 +8,10 @@ class generator(tf.keras.Model):
     self.noise_shape = noise_shape
 
     self.model = tf.keras.Sequential()
-    self.model.add(layers.Dense(4 * 4 * 512, use_bias=False, input_shape=noise_shape))
+    self.model.add(layers.Dense(7 * 7 * 256, use_bias=False, input_shape=noise_shape))
     self.model.add(layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.ReLU())
-    self.model.add(layers.Reshape((4, 4, 512)))
-
-    self.model.add(layers.Conv2DTranspose(256, (5, 5), strides=2, padding='same', use_bias=False))
-    self.model.add(layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.ReLU())
+    self.model.add(layers.Reshape((7, 7, 256)))
 
     self.model.add(layers.Conv2DTranspose(128, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.BatchNormalization(momentum=0.9))
@@ -25,7 +21,7 @@ class generator(tf.keras.Model):
     self.model.add(layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.ReLU())
 
-    self.model.add(layers.Conv2DTranspose(3, (5, 5), strides=2, padding='same', use_bias=False))
+    self.model.add(layers.Conv2DTranspose(1, (5, 5), strides=1, padding='same', use_bias=False))
     self.model.add(layers.Activation(activation='tanh'))
   def call(self, x):
     return self.model(x)
@@ -48,10 +44,6 @@ class discriminator(tf.keras.Model):
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
 
-    self.model.add(tf.keras.layers.Conv2D(512, kernel_size=5, strides=2, padding="same"))
-    self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-
     self.model.add(tf.keras.layers.Conv2D(512, kernel_size=1, strides=1, padding="same"))
 
     self.model.add(tf.keras.layers.Flatten())
@@ -65,6 +57,6 @@ class discriminator(tf.keras.Model):
 def get_gan(noise_shape, img_shape):
   Generator = generator(noise_shape)
   Discriminator = discriminator(img_shape)
-  gen_name = 'dc_gan'
+  gen_name = 'wgan'
   return Generator, Discriminator, gen_name
 

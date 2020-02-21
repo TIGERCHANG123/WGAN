@@ -51,6 +51,7 @@ class train_one_epoch():
 
         k = 0
         for (batch, (images, labels)) in enumerate(self.train_dataset):
+            print('epoch: {}, gen loss: {}, disc loss: {}'.format(epoch, self.gen_loss.result(), self.disc_loss.result()))
             if k < 4:
                 k = k + 1
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
